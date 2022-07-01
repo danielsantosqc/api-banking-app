@@ -8,7 +8,6 @@
 
 body{
   margin: 0px;
-  background: fixed linear-gradient(#aaaaaa, #000000);
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
@@ -17,12 +16,23 @@ body{
 .header {
   height: 50px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  background: fixed linear-gradient(#4c4949, #ffffff);
+  /* background: fixed linear-gradient(#4c4949, #ffffff); */
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-img{
+  width: 35px;
+  background-color: #000000;
+  border-radius:10px;
 }
 
 /* main  */
 .main {
+  background: fixed linear-gradient(#aaaaaa, #000000);
   min-height: calc(100vh - 50px - 40px);
   border: black 1px solid;
   display: flex;
