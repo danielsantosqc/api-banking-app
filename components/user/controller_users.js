@@ -6,7 +6,7 @@ class User {
     this.generate();
   }
   generate() {
-    for (let index = 0; index < 10; index++) {
+    for (let index = 0; index < 3; index++) {
       let name = faker.name.findName();
       let age = faker.datatype.number({ min: 18, max: 100 });
       this.users.push({
@@ -21,7 +21,20 @@ class User {
   }
 
   create(user) {
-    this.users.push(user);
+    // const newUser = {
+    //   id: faker.datatype.uuid(),
+    //   ...user,
+    // }
+    const { name, age, email, phone } = user;
+    const newUser = {
+      id: faker.datatype.uuid(),
+      name,
+      age,
+      email,
+      phone,
+    };
+
+    this.users.push(newUser);
   }
 
   find() {
@@ -29,12 +42,31 @@ class User {
   }
 
   findOne(id) {
-    return this.users.find(item => { return item.id === id});
-   }
+    const user = this.users.find(item => { return item.id === id });
+    return user ? user: 'Nao achei o usuario';
+  }
 
-  update() { }
+  update(id, changes) {
+    const index = this.users.findIndex(item => item.id === id);
+    if (index === -1) {
+      return "nao chei o usuario.."
+    }
+    const user = this.users[index];
+    this.users[index] = {
+      ...user,
+      ...changes,
+    }
+    return this.users[index];
+  }
 
-  delete() { }
+  delete(id) {
+    const index = this.users.findIndex(item => item.id === id)
+    if (index === -1) {
+      return 'Nao achei o usuario'
+    }
+    this.users.splice(index, 1);
+    return 'Usurio apagado';
+  }
 
 
 }

@@ -9,23 +9,41 @@ const userMethod = new User
 router.get('/', (req, res) => {
   const result = userMethod.find();
   res.json(result);
-  console.log("correcto");
 });
 
 router.get('/:id', (req, res) => {
   const { id } = req.params
   const result = userMethod.findOne(id);
-  res.json(result);
+  res.json({
+    message: result
+  });
 });
 
 
 router.post('/', (req, res) => {
-  const body = req.body;
-  users.push(body);
+  const newUser = req.body;
+  userMethod.create(newUser);
 
   res.json({
-    message: 'Recibido',
-    data: body,
+    message: 'Recebido e creado con sucesso',
+    data: newUser,
+  })
+})
+
+router.patch('/:id', (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  const result = userMethod.update(id, body)
+  res.json({
+    message: result
+  })
+})
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  const result = userMethod.delete(id)
+  res.json({
+    message: result
   })
 })
 
