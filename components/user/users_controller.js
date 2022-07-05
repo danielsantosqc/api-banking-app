@@ -1,4 +1,5 @@
 const { faker } = require('@faker-js/faker');
+const boom = require('@hapi/boom');
 
 class User {
   constructor() {
@@ -20,7 +21,7 @@ class User {
     }
   }
 
-  create(user) {
+  async create(user) {
     // const newUser = {
     //   id: faker.datatype.uuid(),
     //   ...user,
@@ -38,18 +39,28 @@ class User {
   }
 
   find() {
-    return this.users;
+    return new Promise((resolve, reject)=> {
+      setTimeout(() => {
+        resolve(this.users)
+      })
+    });
+
   }
 
-  findOne(id) {
+  async findOne(id) {
     const user = this.users.find(item => { return item.id === id });
-    return user ? user: 'Nao achei o usuario';
+    if(!user){
+      throw boom.notFound('Product not found | produto no encontrado');
+    }
+    return user;
+
   }
 
-  update(id, changes) {
+  async update(id, changes) {
     const index = this.users.findIndex(item => item.id === id);
     if (index === -1) {
-      return "nao chei o usuario.."
+      // return "nao chei o usuario.."
+      throw boom.notFound('User not found | usuario no encontrado');
     }
     const user = this.users[index];
     this.users[index] = {
@@ -59,10 +70,10 @@ class User {
     return this.users[index];
   }
 
-  delete(id) {
+  async delete(id) {
     const index = this.users.findIndex(item => item.id === id)
     if (index === -1) {
-      return 'Nao achei o usuario'
+      throw boom.notFound('User not found | usuario no encontrado')
     }
     this.users.splice(index, 1);
     return 'Usurio apagado';

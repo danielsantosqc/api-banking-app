@@ -1,6 +1,9 @@
 const express = require('express');
 const routesApi = require('./network/routes');
 const bodyParser = require('body-parser')
+
+const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error_handler')
+
 const cors = require('cors')
 
 const app = express();
@@ -14,9 +17,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // (middleware) para recibir json (del body) del cliente
 app.use(express.json());
-// app.use(cors());
+
+app.use(cors());
 
 routesApi(app);
+
+app.use(logErrors);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 
 app.use('/', express.static('public'));
